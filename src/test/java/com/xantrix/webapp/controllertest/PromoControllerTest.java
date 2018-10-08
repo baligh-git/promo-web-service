@@ -24,7 +24,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.junit.runners.MethodSorters;
 
 import com.xantrix.webapp.Application;
-import com.xantrix.webapp.entities.Promo;
 import com.xantrix.webapp.repository.PromoRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,72 +46,215 @@ public class PromoControllerTest
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	}
 
+	String JsonData =  
+			"{\"idPromo\": \"481AD25F-ED20-40FA-B01F-B031B20EB47C\",    \r\n" + 
+			" \"anno\": 2018,    \r\n" + 
+			" \"codice\": \"VL01\",    \r\n" + 
+			" \"descrizione\": \"PROMO VOLANTINO 1\",\r\n" + 
+			" \"dettPromo\": [\r\n" + 
+			" \r\n" + 
+			"	{ \"id\": \"-1\", \r\n" + 
+			"	  \"riga\": 1,            \r\n" + 
+			"	  \"codart\": \"002000301\",            \r\n" + 
+			"	  \"codfid\": null,            \r\n" + 
+			"	  \"inizio\": \"2018-10-01\",            \r\n" + 
+			"	  \"fine\": \"2018-12-31\",            \r\n" + 
+			"	  \"oggetto\": \"0,29\",            \r\n" + 
+			"	  \"isfid\": \"No\",            \r\n" + 
+			"	  \"tipoPromo\": {                \r\n" + 
+			"		\"descrizione\": \"TAGLIO PREZZO\",\r\n" + 
+			"		\"idTipoPromo\": \"1\"  }        \r\n" + 
+			"	},\r\n" + 
+			"	{ \"id\": \"-1\", \r\n" + 
+			"	  \"riga\": 2,            \r\n" + 
+			"	  \"codart\": \"000087101\",            \r\n" + 
+			"	  \"codfid\": null,            \r\n" + 
+			"	  \"inizio\": \"2018-10-01\",            \r\n" + 
+			"	  \"fine\": \"2018-12-31\",            \r\n" + 
+			"	  \"oggetto\": \"1,99\",            \r\n" + 
+			"	  \"isfid\": \"No\",            \r\n" + 
+			"	  \"tipoPromo\": {                \r\n" + 
+			"		\"descrizione\": \"TAGLIO PREZZO\",\r\n" + 
+			"		\"idTipoPromo\": \"1\"  }        \r\n" + 
+			"	},\r\n" + 
+			"	{ \"id\": \"-1\", \r\n" + 
+			"	  \"riga\": 3,            \r\n" + 
+			"	  \"codart\": \"007288701\",            \r\n" + 
+			"	  \"codfid\": null,            \r\n" + 
+			"	  \"inizio\": \"2018-10-01\",            \r\n" + 
+			"	  \"fine\": \"2018-12-31\",            \r\n" + 
+			"	  \"oggetto\": \"3,29\",            \r\n" + 
+			"	  \"isfid\": \"No\",            \r\n" + 
+			"	  \"tipoPromo\": {                \r\n" + 
+			"		\"descrizione\": \"TAGLIO PREZZO\",\r\n" + 
+			"		\"idTipoPromo\": \"1\"  }        \r\n" + 
+			"	}],\r\n" + 
+			"	\"depRifPromo\": [\r\n" + 
+			"		{\r\n" + 
+			"			\"id\": 4,\r\n" + 
+			"            \"idDeposito\": 525\r\n" + 
+			"        }\r\n" + 
+			"	]\r\n" + 
+			"}";
+	
+	@Test
+	public void A_testInserimento() throws Exception
+	{
+		mockMvc.perform(MockMvcRequestBuilders.post("/promo/inserisci")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(JsonData)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated())
+				.andDo(print());
+	}
+			 
 	
 	@Test
 	public void A_testSelTutti() throws Exception
 	{
-		mockMvc.perform(MockMvcRequestBuilders.get("/promo")
+		mockMvc.perform(MockMvcRequestBuilders.get("/promo/cerca/tutti")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$", hasSize(1)))
+				.andDo(print());
+	}
+
+	@Test
+	public void C_listPromoById() throws Exception
+	{
+		mockMvc.perform(MockMvcRequestBuilders.get("/promo/cerca/id/481AD25F-ED20-40FA-B01F-B031B20EB47C")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.codice").exists())
+				.andExpect(jsonPath("$.codice").value("VL01"))
+				.andExpect(jsonPath("$.descrizione").exists())
+				.andExpect(jsonPath("$.descrizione").value("PROMO VOLANTINO 1"))
+
+				.andExpect(jsonPath("$.dettPromo[1].codart").exists())
+				.andExpect(jsonPath("$.dettPromo[1].codart").value("002000301")) 
+				.andExpect(jsonPath("$.dettPromo[1].oggetto").exists())
+				.andExpect(jsonPath("$.dettPromo[1].oggetto").value("0,29")) 
+				.andExpect(jsonPath("$.dettPromo[1].tipoPromo.descrizione").exists())
+				.andExpect(jsonPath("$.dettPromo[1].tipoPromo.descrizione").value("TAGLIO PREZZO")) 
+
+				.andExpect(jsonPath("$.dettPromo[2].codart").exists())
+				.andExpect(jsonPath("$.dettPromo[2].codart").value("000087101")) 
+				.andExpect(jsonPath("$.dettPromo[2].oggetto").exists())
+				.andExpect(jsonPath("$.dettPromo[2].oggetto").value("1,99")) 
+				.andExpect(jsonPath("$.dettPromo[2].tipoPromo.descrizione").exists())
+				.andExpect(jsonPath("$.dettPromo[2].tipoPromo.descrizione").value("TAGLIO PREZZO")) 
+
+
+				.andExpect(jsonPath("$.dettPromo[0].codart").exists())
+				.andExpect(jsonPath("$.dettPromo[0].codart").value("007288701")) 
+				.andExpect(jsonPath("$.dettPromo[0].oggetto").exists())
+				.andExpect(jsonPath("$.dettPromo[0].oggetto").value("3,29")) 
+				.andExpect(jsonPath("$.dettPromo[0].tipoPromo.descrizione").exists())
+				.andExpect(jsonPath("$.dettPromo[0].tipoPromo.descrizione").value("TAGLIO PREZZO"))
+				
+				.andExpect(jsonPath("$.depRifPromo[0].idDeposito").exists())
+				.andExpect(jsonPath("$.depRifPromo[0].idDeposito").value("525")) 
+
+				.andDo(print());
+	}
+
+	@Test
+	public void B_listPromoAttive() throws Exception
+	{
+		mockMvc.perform(MockMvcRequestBuilders.get("/promo/cerca/attive")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$", hasSize(3)))
-				.andDo(print());
+				.andReturn();
 	}
 	
-	@Test
-	public void B_testInserimento() throws Exception
-	{
-		mockMvc.perform(MockMvcRequestBuilders.post("/promo/inserisci").contentType(MediaType.APPLICATION_JSON)
-				.content("{    \"idPromo\": \"959325BE-B4F0-4F95-9DA4-0A3E5F3858A2\",    \"anno\": 2018,    \"codice\": \"AP01\",    \"descrizione\": \"PROMO TEST 1\",    \"dettPromo\": [        {            \"id\": \"-1\",            \"riga\": 1,            \"codart\": \"000016901\",            \"codfid\": null,            \"inizio\": \"2018-04-01\",            \"fine\": \"2018-05-30\",            \"oggetto\": \"0,29\",            \"isfid\": \"No\",            \"tipoPromo\": {                \"descrizione\": \"TAGLIO PREZZO\",                \"id\": \"1\"            }        }    ],    \"depRifPromo\": []}")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isCreated())
-				.andDo(print());
-		
-		assertThat(promoRepository.findAll()).hasSize(4);
-		
-		assertThat(promoRepository.findByIdPromo("959325BE-B4F0-4F95-9DA4-0A3E5F3858A2"))
-		.extracting(Promo::getIdPromo)
-		.containsOnly("959325BE-B4F0-4F95-9DA4-0A3E5F3858A2", "959325BE-B4F0-4F95-9DA4-0A3E5F3858A2");
-	}
-	
-	@Test
-	public void C_listPromoById() throws Exception
-	{
-		mockMvc.perform(MockMvcRequestBuilders.get("/promo/id/959325BE-B4F0-4F95-9DA4-0A3E5F3858A2")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.idPromo").exists())
-				.andExpect(jsonPath("$.idPromo").value("959325BE-B4F0-4F95-9DA4-0A3E5F3858A2"))
-				.andExpect(jsonPath("$.anno").exists())
-				.andExpect(jsonPath("$.anno").value("2018"))
-				.andExpect(jsonPath("$.dettPromo[0].id").exists())
-				.andExpect(jsonPath("$.dettPromo[0].riga").exists())
-				.andExpect(jsonPath("$.dettPromo[0].riga").value("1")) 
-				.andExpect(jsonPath("$.dettPromo[0].tipoPromo.descrizione").exists())
-				.andExpect(jsonPath("$.dettPromo[0].tipoPromo.descrizione").value("TAGLIO PREZZO")) 
-				.andDo(print());
-	}
-	
+	private String JsonData2 =
+		"{\"idPromo\": \"481AD25F-ED20-40FA-B01F-B031B20EB47C\",    \r\n" + 
+		" \"anno\": 2018,    \r\n" + 
+		" \"codice\": \"VL01\",    \r\n" + 
+		" \"descrizione\": \"PROMO VOLANTINO 1\",\r\n" + 
+		" \"dettPromo\": [\r\n" + 
+		" \r\n" + 
+		"	{ \"id\": \"-1\", \r\n" + 
+		"	  \"riga\": 1,            \r\n" + 
+		"	  \"codart\": \"002000301\",            \r\n" + 
+		"	  \"codfid\": null,            \r\n" + 
+		"	  \"inizio\": \"2018-10-01\",            \r\n" + 
+		"	  \"fine\": \"2018-12-31\",            \r\n" + 
+		"	  \"oggetto\": \"0,29\",            \r\n" + 
+		"	  \"isfid\": \"Si\",            \r\n" + 
+		"	  \"tipoPromo\": {                \r\n" + 
+		"		\"descrizione\": \"TAGLIO PREZZO\",\r\n" + 
+		"		\"idTipoPromo\": \"1\"  }        \r\n" + 
+		"	},\r\n" + 
+		"	{ \"id\": \"-1\", \r\n" + 
+		"	  \"riga\": 2,            \r\n" + 
+		"	  \"codart\": \"000087101\",            \r\n" + 
+		"	  \"codfid\": null,            \r\n" + 
+		"	  \"inizio\": \"2018-10-01\",            \r\n" + 
+		"	  \"fine\": \"2018-12-31\",            \r\n" + 
+		"	  \"oggetto\": \"1,99\",            \r\n" + 
+		"	  \"isfid\": \"Si\",            \r\n" + 
+		"	  \"tipoPromo\": {                \r\n" + 
+		"		\"descrizione\": \"TAGLIO PREZZO\",\r\n" + 
+		"		\"idTipoPromo\": \"1\"  }        \r\n" + 
+		"	},\r\n" + 
+		"	{ \"id\": \"-1\", \r\n" + 
+		"	  \"riga\": 3,            \r\n" + 
+		"	  \"codart\": \"007288701\",            \r\n" + 
+		"	  \"codfid\": null,            \r\n" + 
+		"	  \"inizio\": \"2018-10-01\",            \r\n" + 
+		"	  \"fine\": \"2018-12-31\",            \r\n" + 
+		"	  \"oggetto\": \"3,29\",            \r\n" + 
+		"	  \"isfid\": \"Si\",            \r\n" + 
+		"	  \"tipoPromo\": {                \r\n" + 
+		"		\"descrizione\": \"TAGLIO PREZZO\",\r\n" + 
+		"		\"idTipoPromo\": \"1\"  }        \r\n" + 
+		"	}],\r\n" + 
+		"	\"depRifPromo\": [\r\n" + 
+		"		{\r\n" + 
+		"			\"id\": 4,\r\n" + 
+		"            \"idDeposito\": 525\r\n" + 
+		"        }\r\n" + 
+		"	]\r\n" + 
+		"}";
+
 	@Test
 	public void D_testModifica() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.post("/promo/inserisci").contentType(MediaType.APPLICATION_JSON)
-				.content("{    \"idPromo\": \"959325BE-B4F0-4F95-9DA4-0A3E5F3858A2\",    \"anno\": 2018,    \"codice\": \"AP01\",    \"descrizione\": \"PROMO TEST 2\",    \"dettPromo\": [        {            \"id\": \"-1\",            \"riga\": 1,            \"codart\": \"000016901\",            \"codfid\": 67500123,            \"inizio\": \"2018-04-01\",            \"fine\": \"2018-05-30\",            \"oggetto\": \"0,29\",            \"isfid\": \"No\",            \"tipoPromo\": {                \"descrizione\": \"TAGLIO PREZZO\",                \"id\": \"1\"            }        }    ],    \"depRifPromo\": []}")
+				.content(JsonData2)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated())
 				.andDo(print());
-		
-		assertThat(promoRepository.findByIdPromo("959325BE-B4F0-4F95-9DA4-0A3E5F3858A2"))
-		.extracting(Promo::getDescrizione)
-		.containsOnly("PROMO TEST 2", "PROMO TEST 2");
-		
+	}
+	
+	@Test
+	public void C_listPromoById2() throws Exception
+	{
+		mockMvc.perform(MockMvcRequestBuilders.get("/promo/cerca/id/481AD25F-ED20-40FA-B01F-B031B20EB47C")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.codice").exists())
+				.andExpect(jsonPath("$.codice").value("VL01"))
+				.andExpect(jsonPath("$.descrizione").exists())
+				.andExpect(jsonPath("$.descrizione").value("PROMO VOLANTINO 1"))
+
+				.andExpect(jsonPath("$.dettPromo[0].isfid").value("Si")) 
+				.andExpect(jsonPath("$.dettPromo[1].isfid").value("Si")) 
+				.andExpect(jsonPath("$.dettPromo[2].isfid").value("Si")) 
+			 
+				.andDo(print());
 	}
 	
 	@Test
 	public void E_PromoExceptionTest() throws Exception
 	{
-		mockMvc.perform(MockMvcRequestBuilders.get("/promo/id/959325BE-B4F0-4F95-9DA4-0A3E5F3858S2")
+		mockMvc.perform(MockMvcRequestBuilders.get("/promo/cerca/id/959325BE-B4F0-4F95-9DA4-0A3E5F3858S2")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotFound())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -122,12 +264,10 @@ public class PromoControllerTest
 	@Test
 	public void F_deletePromo() throws Exception
 	{
-		mockMvc.perform(MockMvcRequestBuilders.delete("/promo/959325BE-B4F0-4F95-9DA4-0A3E5F3858A2")
+		mockMvc.perform(MockMvcRequestBuilders.delete("/promo/elimina/481AD25F-ED20-40FA-B01F-B031B20EB47C")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 				.andDo(print());
-		
-		assertThat(promoRepository.findAll()).hasSize(3);
 	}
 }

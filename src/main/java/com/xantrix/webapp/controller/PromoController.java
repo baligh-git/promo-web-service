@@ -108,29 +108,6 @@ public class PromoController
 		
 		return new ResponseEntity<Promo>(promo, HttpStatus.OK);
 	}
-	
-	//http://localhost:8061/promo/codice?anno=2018&codice=PP08
-	@RequestMapping(value = "/cerca/codice", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Promo> listPromoByCodice(@RequestParam("anno") String Anno,
-			@RequestParam("codice") String Codice) 
-					throws NotFoundException
-	{
-		logger.info("****** Otteniamo la promozione con Codice: " + Codice + "*******");
-
-		Promo promo = promoService.SelByCodice(Integer.valueOf(Anno), Codice);
-
-		if (promo == null)
-		{
-			String ErrMsg = String.format("La promozione %s dell'anno %s non è stata trovata!", Codice, Anno);
-			
-			logger.warn(ErrMsg);
-			
-			throw new NotFoundException(ErrMsg);
-		}
-
-		return new ResponseEntity<Promo>(promo, HttpStatus.OK);
-	}
-
 	@RequestMapping(value = "/cerca/attive", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<Promo>> listPromoActive() 
 			throws NotFoundException
@@ -152,7 +129,7 @@ public class PromoController
 	}
 
 	// ------------------- INSERT PROMO ------------------------------------
-	@RequestMapping(value = "/promo/inserisci", method = RequestMethod.POST)
+	@RequestMapping(value = "/inserisci", method = RequestMethod.POST)
 	public ResponseEntity<Promo> createPromo(@Valid @RequestBody Promo promo, BindingResult bindingResult,
 			UriComponentsBuilder ucBuilder) 
 					throws BindingException

@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
- 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
  
 
@@ -33,8 +33,8 @@ public class TipoPromo implements Serializable
 	private String descrizione;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "tipoPromo")
-	//@JsonBackReference
-	@JsonIgnore
+	@JsonBackReference
+	//@JsonIgnore
 	private Set<DettPromo> dettPromo = new HashSet<>();
 	
 }

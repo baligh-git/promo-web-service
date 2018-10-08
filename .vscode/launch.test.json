@@ -1,0 +1,30 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "PromoWebServices",
+                "projectName": "PromoWebServices",
+                "workingDirectory": "c:\\Users\\Nicola\\OneDrive\\Documenti\\Corsi Udemy\\Spring Cloud\\promo-web-service",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "PromoWebServices",
+                "projectName": "PromoWebServices",
+                "workingDirectory": "c:\\Users\\Nicola\\OneDrive\\Documenti\\Corsi Udemy\\Spring Cloud\\promo-web-service",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}
