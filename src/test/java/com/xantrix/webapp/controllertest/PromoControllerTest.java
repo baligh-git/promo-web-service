@@ -126,27 +126,27 @@ public class PromoControllerTest
 				.andExpect(jsonPath("$.descrizione").exists())
 				.andExpect(jsonPath("$.descrizione").value("PROMO VOLANTINO 1"))
 
+				.andExpect(jsonPath("$.dettPromo[0].codart").exists())
+				.andExpect(jsonPath("$.dettPromo[0].codart").value("002000301")) 
+				.andExpect(jsonPath("$.dettPromo[0].oggetto").exists())
+				.andExpect(jsonPath("$.dettPromo[0].oggetto").value("0,29")) 
+				.andExpect(jsonPath("$.dettPromo[0].tipoPromo.descrizione").exists())
+				.andExpect(jsonPath("$.dettPromo[0].tipoPromo.descrizione").value("TAGLIO PREZZO")) 
+
 				.andExpect(jsonPath("$.dettPromo[1].codart").exists())
-				.andExpect(jsonPath("$.dettPromo[1].codart").value("002000301")) 
+				.andExpect(jsonPath("$.dettPromo[1].codart").value("000087101")) 
 				.andExpect(jsonPath("$.dettPromo[1].oggetto").exists())
-				.andExpect(jsonPath("$.dettPromo[1].oggetto").value("0,29")) 
+				.andExpect(jsonPath("$.dettPromo[1].oggetto").value("1,99")) 
 				.andExpect(jsonPath("$.dettPromo[1].tipoPromo.descrizione").exists())
 				.andExpect(jsonPath("$.dettPromo[1].tipoPromo.descrizione").value("TAGLIO PREZZO")) 
 
+
 				.andExpect(jsonPath("$.dettPromo[2].codart").exists())
-				.andExpect(jsonPath("$.dettPromo[2].codart").value("000087101")) 
+				.andExpect(jsonPath("$.dettPromo[2].codart").value("007288701")) 
 				.andExpect(jsonPath("$.dettPromo[2].oggetto").exists())
-				.andExpect(jsonPath("$.dettPromo[2].oggetto").value("1,99")) 
+				.andExpect(jsonPath("$.dettPromo[2].oggetto").value("3,29")) 
 				.andExpect(jsonPath("$.dettPromo[2].tipoPromo.descrizione").exists())
-				.andExpect(jsonPath("$.dettPromo[2].tipoPromo.descrizione").value("TAGLIO PREZZO")) 
-
-
-				.andExpect(jsonPath("$.dettPromo[0].codart").exists())
-				.andExpect(jsonPath("$.dettPromo[0].codart").value("007288701")) 
-				.andExpect(jsonPath("$.dettPromo[0].oggetto").exists())
-				.andExpect(jsonPath("$.dettPromo[0].oggetto").value("3,29")) 
-				.andExpect(jsonPath("$.dettPromo[0].tipoPromo.descrizione").exists())
-				.andExpect(jsonPath("$.dettPromo[0].tipoPromo.descrizione").value("TAGLIO PREZZO"))
+				.andExpect(jsonPath("$.dettPromo[2].tipoPromo.descrizione").value("TAGLIO PREZZO"))
 				
 				.andExpect(jsonPath("$.depRifPromo[0].idDeposito").exists())
 				.andExpect(jsonPath("$.depRifPromo[0].idDeposito").value("525")) 

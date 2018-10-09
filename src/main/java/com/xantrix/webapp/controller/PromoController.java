@@ -1,9 +1,13 @@
 package com.xantrix.webapp.controller;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.tomcat.util.digester.SetNextRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +27,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
- 
+import com.xantrix.webapp.entities.DettPromo;
 import com.xantrix.webapp.entities.Promo;
 import com.xantrix.webapp.exception.BindingException;
 import com.xantrix.webapp.exception.NotFoundException;
@@ -37,6 +41,7 @@ public class PromoController
 
 	@Autowired
 	private PromoService promoService;	
+
 	@Autowired
 	private ResourceBundleMessageSource errMessage;
 		
@@ -69,7 +74,7 @@ public class PromoController
 		logger.info("****** Otteniamo la promozione con Id: " + IdPromo + "*******");
 
 		Promo promo = promoService.SelByIdPromo(IdPromo);
-		
+
 		if (promo == null)
 		{
 			String ErrMsg = String.format("La promozione %s non è stata trovata!", IdPromo);
@@ -78,6 +83,7 @@ public class PromoController
 			
 			throw new NotFoundException(ErrMsg);
 		}
+		
 		
 		return new ResponseEntity<Promo>(promo, HttpStatus.OK);
 	}
