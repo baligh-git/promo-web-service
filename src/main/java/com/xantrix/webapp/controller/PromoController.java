@@ -1,7 +1,6 @@
 package com.xantrix.webapp.controller;
 
 import java.util.List;
-import java.util.OptionalDouble;
 
 import javax.validation.Valid;
 
@@ -19,17 +18,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.xantrix.webapp.entities.DettPromo;
+ 
 import com.xantrix.webapp.entities.Promo;
 import com.xantrix.webapp.exception.BindingException;
 import com.xantrix.webapp.exception.NotFoundException;
-import com.xantrix.webapp.service.DettPromoService;
 import com.xantrix.webapp.service.PromoService;
 
 @RestController
@@ -39,34 +36,10 @@ public class PromoController
 	private static final Logger logger = LoggerFactory.getLogger(PromoController.class);
 
 	@Autowired
-	private PromoService promoService;
-	
-	@Autowired
-	private DettPromoService dettPromoService;
-	
+	private PromoService promoService;	
 	@Autowired
 	private ResourceBundleMessageSource errMessage;
-	
-	
-	@RequestMapping(value = "/cerca/prezzo/{codart}", method = RequestMethod.GET)
-	public OptionalDouble getPriceCodArt(@PathVariable("codart") String CodArt)  
-	{
-		OptionalDouble Prezzo = null;
 		
-		List<DettPromo> dettPromo = dettPromoService.SelDettPromoByCodArt(CodArt, 1);
-		
-		if (dettPromo != null)
-		{
-			Prezzo = dettPromo.
-					stream().mapToDouble(v -> Double.parseDouble(v.getOggetto())).min();
-			
-			logger.info("Prezzo Promo Articolo: " + Prezzo);
-		
-		}
-		
-		return Prezzo;	
-	}
-	
 	@RequestMapping(value = "/cerca/tutti", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<Promo>> listAllPromo()
 			throws NotFoundException
@@ -107,25 +80,6 @@ public class PromoController
 		}
 		
 		return new ResponseEntity<Promo>(promo, HttpStatus.OK);
-	}
-	@RequestMapping(value = "/cerca/attive", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<List<Promo>> listPromoActive() 
-			throws NotFoundException
-	{
-		logger.info("****** Otteniamo la Promozione Attive*******");
-
-		List<Promo> promo = promoService.SelActivePromo();
-
-		if (promo == null)
-		{
-			String ErrMsg = "Non esistono promozioni attive alla data corrente";
-			
-			logger.warn(ErrMsg);
-			
-			throw new NotFoundException(ErrMsg);
-		}
-
-		return new ResponseEntity<List<Promo>>(promo, HttpStatus.OK);
 	}
 
 	// ------------------- INSERT PROMO ------------------------------------
@@ -185,8 +139,4 @@ public class PromoController
 
 		return new ResponseEntity<>(responseNode, headers, HttpStatus.OK);
 	}
-	
-	
-	
-
 }

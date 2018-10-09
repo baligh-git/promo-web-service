@@ -6,8 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.assertj.core.api.Assertions.assertThat;
- 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -24,7 +22,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.junit.runners.MethodSorters;
 
 import com.xantrix.webapp.Application;
-import com.xantrix.webapp.repository.PromoRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class)
@@ -37,9 +34,6 @@ public class PromoControllerTest
 	@Autowired
 	private WebApplicationContext wac;
 	
-	@Autowired
-	private PromoRepository promoRepository;
-
 	@Before
 	public void setup()
 	{

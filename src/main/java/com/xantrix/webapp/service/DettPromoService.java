@@ -7,16 +7,9 @@ import com.xantrix.webapp.entities.DettPromo;
  
 
 public interface DettPromoService
-{
-	Optional<DettPromo>  SelDettPromo(long Id);
-	
+{	
 	List<DettPromo> SelDettPromoByCodFid(String CodFid);
 	
-	List<DettPromo> SelDettPromoByCodArt(String Codice, int Tipo);
+	List<DettPromo> SelDettPromoByCode(String Codice);
 	
-	void InsDettPromo(DettPromo dettPromo);
-	
-	void UpdDettPromo(Long Id, String Oggetto);
-	
-	void DelRowPromo(Long Id);
 }
