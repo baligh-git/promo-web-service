@@ -154,17 +154,6 @@ public class PromoControllerTest
 				.andDo(print());
 	}
 
-	@Test
-	public void B_listPromoAttive() throws Exception
-	{
-		mockMvc.perform(MockMvcRequestBuilders.get("/promo/cerca/attive")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$", hasSize(3)))
-				.andReturn();
-	}
-	
 	private String JsonData2 =
 		"{\"idPromo\": \"481AD25F-ED20-40FA-B01F-B031B20EB47C\",    \r\n" + 
 		" \"anno\": 2018,    \r\n" + 

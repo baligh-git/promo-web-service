@@ -8,7 +8,5 @@ import com.xantrix.webapp.entities.Promo;
 @Repository
 public interface PromoRepository extends JpaRepository<Promo, Long>
 {
-	Promo findByIdPromo(String IdPromo);
-	
-	Promo findByAnnoAndCodice(int Anno, String Codice);	 
+	Promo findByIdPromo(String IdPromo);	 
 }
