@@ -6,6 +6,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,7 @@ public class PromoServiceImpl implements PromoService
 	}
 
 	@Override
+	@Cacheable(value = "promo_cache",key = "#IdPromo",sync = true)
 	public Promo SelByIdPromo(String IdPromo)
 	{
 		Promo promo = promoRepository.findByIdPromo(IdPromo);
@@ -47,6 +51,9 @@ public class PromoServiceImpl implements PromoService
 		
 	@Override
 	@Transactional
+	@Caching(evict = { 
+		@CacheEvict(cacheNames="przpromo_cache", allEntries = true),
+		@CacheEvict(cacheNames="promo_cache",key = "#promo.idPromo")})
 	public void InsPromo(Promo promo)
 	{
 		promoRepository.saveAndFlush(promo);
@@ -54,6 +61,9 @@ public class PromoServiceImpl implements PromoService
 
 	@Override
 	@Transactional
+	@Caching(evict = { 
+		@CacheEvict(cacheNames="przpromo_cache", allEntries = true),
+		@CacheEvict(cacheNames="promo_cache",key = "#promo.idPromo")})
 	public void DelPromo(Promo promo)
 	{
 		promoRepository.delete(promo);
