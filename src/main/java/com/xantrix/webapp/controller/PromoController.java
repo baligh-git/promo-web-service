@@ -1,13 +1,9 @@
 package com.xantrix.webapp.controller;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
+import java.util.List;
 import javax.validation.Valid;
 
-import org.apache.tomcat.util.digester.SetNextRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +23,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.xantrix.webapp.entities.DettPromo;
 import com.xantrix.webapp.entities.Promo;
 import com.xantrix.webapp.exception.BindingException;
 import com.xantrix.webapp.exception.NotFoundException;

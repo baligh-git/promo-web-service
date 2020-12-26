@@ -5,28 +5,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.junit.runners.MethodSorters;
 
 import com.xantrix.webapp.Application;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class)
 @SpringBootTest
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PrezziPromoControllerTest
 {
     private MockMvc mockMvc;
@@ -34,7 +32,7 @@ public class PrezziPromoControllerTest
 	@Autowired
     private WebApplicationContext wac;
     
-    @Before
+    @BeforeEach
 	public void setup()
 	{
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -43,7 +41,7 @@ public class PrezziPromoControllerTest
 
     private String JsonData =
     		"{\"idPromo\": \"481AD25F-ED20-40FA-B01F-B031B20EB47C\",    \r\n" + 
-    		" \"anno\": 2018,    \r\n" + 
+    		" \"anno\": 2020,    \r\n" + 
     		" \"codice\": \"TS01\",    \r\n" + 
     		" \"descrizione\": \"PROMO TEST 1\",\r\n" + 
     		" \"dettPromo\": [\r\n" + 
@@ -52,8 +50,8 @@ public class PrezziPromoControllerTest
     		"	  \"riga\": 1,            \r\n" + 
     		"	  \"codart\": \"002000301\",            \r\n" + 
     		"	  \"codfid\": null,            \r\n" + 
-    		"	  \"inizio\": \"2018-10-01\",            \r\n" + 
-    		"	  \"fine\": \"2018-12-31\",            \r\n" + 
+    		"	  \"inizio\": \"2020-10-01\",            \r\n" + 
+    		"	  \"fine\": \"2020-12-31\",            \r\n" + 
     		"	  \"oggetto\": \"0,29\",            \r\n" + 
     		"	  \"isfid\": \"Si\",            \r\n" + 
     		"	  \"tipoPromo\": {                \r\n" + 
@@ -64,8 +62,8 @@ public class PrezziPromoControllerTest
     		"	  \"riga\": 2,            \r\n" + 
     		"	  \"codart\": \"000087101\",            \r\n" + 
     		"	  \"codfid\": null,            \r\n" + 
-    		"	  \"inizio\": \"2018-10-01\",            \r\n" + 
-    		"	  \"fine\": \"2018-12-31\",            \r\n" + 
+    		"	  \"inizio\": \"2020-10-01\",            \r\n" + 
+    		"	  \"fine\": \"2020-12-31\",            \r\n" + 
     		"	  \"oggetto\": \"1,99\",            \r\n" + 
     		"	  \"isfid\": \"Si\",            \r\n" + 
     		"	  \"tipoPromo\": {                \r\n" + 
@@ -76,8 +74,8 @@ public class PrezziPromoControllerTest
     		"	  \"riga\": 3,            \r\n" + 
     		"	  \"codart\": \"007288701\",            \r\n" + 
     		"	  \"codfid\": null,            \r\n" + 
-    		"	  \"inizio\": \"2018-10-01\",            \r\n" + 
-    		"	  \"fine\": \"2018-12-31\",            \r\n" + 
+    		"	  \"inizio\": \"2020-10-01\",            \r\n" + 
+    		"	  \"fine\": \"2020-12-31\",            \r\n" + 
     		"	  \"oggetto\": \"3,29\",            \r\n" + 
     		"	  \"isfid\": \"Si\",            \r\n" + 
     		"	  \"tipoPromo\": {                \r\n" + 
@@ -88,8 +86,8 @@ public class PrezziPromoControllerTest
     		"	  \"riga\": 4,            \r\n" + 
     		"	  \"codart\": \"002000301\",            \r\n" + 
     		"	  \"codfid\": 67000028,            \r\n" + 
-    		"	  \"inizio\": \"2018-10-01\",            \r\n" + 
-    		"	  \"fine\": \"2018-12-31\",            \r\n" + 
+    		"	  \"inizio\": \"2020-10-01\",            \r\n" + 
+    		"	  \"fine\": \"2020-12-31\",            \r\n" + 
     		"	  \"oggetto\": \"0,27\",            \r\n" + 
     		"	  \"isfid\": \"Si\",            \r\n" + 
     		"	  \"tipoPromo\": {                \r\n" + 
@@ -100,8 +98,8 @@ public class PrezziPromoControllerTest
     		"	  \"riga\": 5,            \r\n" + 
     		"	  \"codart\": \"000087101\",            \r\n" + 
     		"	  \"codfid\": null,            \r\n" + 
-    		"	  \"inizio\": \"2018-09-01\",            \r\n" + 
-    		"	  \"fine\": \"2018-12-31\",            \r\n" + 
+    		"	  \"inizio\": \"2020-09-01\",            \r\n" + 
+    		"	  \"fine\": \"2020-12-31\",            \r\n" + 
     		"	  \"oggetto\": \"1,89\",            \r\n" + 
     		"	  \"isfid\": \"Si\",            \r\n" + 
     		"	  \"tipoPromo\": {                \r\n" + 
@@ -117,6 +115,7 @@ public class PrezziPromoControllerTest
     		"}";
 
     @Test
+    @Order(1)
 	public void A_TestInsPromo() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.post("/promo/inserisci").contentType(MediaType.APPLICATION_JSON)
@@ -127,7 +126,8 @@ public class PrezziPromoControllerTest
 	}
     
     @Test
-	public void A_GetPrzCodArtPromoTest() throws Exception
+    @Order(2)
+	public void B_GetPrzCodArtPromoTest() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.get("/prezzo/promo/codice/002000301")
 			.accept(MediaType.APPLICATION_JSON))
@@ -138,7 +138,8 @@ public class PrezziPromoControllerTest
     }
 
     @Test
-	public void A_GetPrzCodArtPromoTest2() throws Exception
+    @Order(3)
+	public void C_GetPrzCodArtPromoTest2() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.get("/prezzo/promo/codice/000087101")
 			.accept(MediaType.APPLICATION_JSON))
@@ -149,7 +150,8 @@ public class PrezziPromoControllerTest
     }
 
     @Test
-	public void A_GetPrzFidelityPromoTest() throws Exception
+    @Order(4)
+	public void D_GetPrzFidelityPromoTest() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.get("/prezzo/promo/fidelity/67000028/002000301")
 			.accept(MediaType.APPLICATION_JSON))
@@ -160,7 +162,8 @@ public class PrezziPromoControllerTest
     }
     
     @Test
-	public void A_GetPrzCodArtNoPromoTest() throws Exception
+    @Order(5)
+	public void E_GetPrzCodArtNoPromoTest() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.get("/prezzo/promo/codice/000087102")
 			.accept(MediaType.APPLICATION_JSON))
@@ -171,7 +174,8 @@ public class PrezziPromoControllerTest
     }
 
     @Test
-	public void A_GetPrzFidelityNoPromoTest() throws Exception
+    @Order(6)
+	public void F_GetPrzFidelityNoPromoTest() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.get("/prezzo/promo/fidelity/67000029/002000301")
 			.accept(MediaType.APPLICATION_JSON))
@@ -182,7 +186,8 @@ public class PrezziPromoControllerTest
     }
     
     @Test
-	public void F_deletePromo() throws Exception
+    @Order(7)
+	public void G_deletePromo() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.delete("/promo/elimina/481AD25F-ED20-40FA-B01F-B031B20EB47C")
 				.accept(MediaType.APPLICATION_JSON))

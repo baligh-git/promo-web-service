@@ -2,6 +2,7 @@ package com.xantrix.webapp.entities;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -46,7 +47,7 @@ public class Promo implements Serializable
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,  mappedBy = "promo", orphanRemoval = true)
 	@JsonManagedReference
-	private Set<DettPromo> dettPromo = new HashSet<>();
+	private List<DettPromo> dettPromo;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,  mappedBy = "promo", orphanRemoval = true)
 	@JsonManagedReference

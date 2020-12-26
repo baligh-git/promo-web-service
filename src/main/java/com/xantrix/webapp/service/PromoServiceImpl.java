@@ -38,10 +38,10 @@ public class PromoServiceImpl implements PromoService
 
 		 if (promo != null)
 		 {
-			 Set<DettPromo> PromoRows = promo.getDettPromo()
+			 List<DettPromo> PromoRows = promo.getDettPromo()
 			 .stream()
 			 .sorted(Comparator.comparing(DettPromo::getRiga))
-			 .collect(Collectors.toSet());
+			 .collect(Collectors.toList());
  
 			 promo.setDettPromo(PromoRows);
 		 }

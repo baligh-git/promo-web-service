@@ -33,7 +33,7 @@ public class DettPromoServiceImpl implements DettPromoService
 	}
 	
 	@Override
-	@Cacheable(value = "przpromo_cache",sync = true)
+	//@Cacheable(value = "przpromo_cache",sync = true)
 	public List<DettPromo> SelDettPromoByCode(String Codice)
 	{
 		List<DettPromo> retVal = dettPromoRepository.findDettPromoActive()

@@ -6,10 +6,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -19,14 +20,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.junit.runners.MethodSorters;
 
 import com.xantrix.webapp.Application;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class)
 @SpringBootTest
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PromoControllerTest
 {
 	private MockMvc mockMvc;
@@ -34,7 +33,7 @@ public class PromoControllerTest
 	@Autowired
 	private WebApplicationContext wac;
 	
-	@Before
+	@BeforeEach
 	public void setup()
 	{
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -92,6 +91,7 @@ public class PromoControllerTest
 			"}";
 	
 	@Test
+	@Order(1)
 	public void A_testInserimento() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.post("/promo/inserisci")
@@ -104,7 +104,8 @@ public class PromoControllerTest
 			 
 	
 	@Test
-	public void A_testSelTutti() throws Exception
+	@Order(2)
+	public void B_testSelTutti() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.get("/promo/cerca/tutti")
 				.accept(MediaType.APPLICATION_JSON))
@@ -115,6 +116,7 @@ public class PromoControllerTest
 	}
 
 	@Test
+	@Order(3)
 	public void C_listPromoById() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.get("/promo/cerca/id/481AD25F-ED20-40FA-B01F-B031B20EB47C")
@@ -206,6 +208,7 @@ public class PromoControllerTest
 		"}";
 
 	@Test
+	@Order(4)
 	public void D_testModifica() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.post("/promo/inserisci").contentType(MediaType.APPLICATION_JSON)
@@ -216,7 +219,8 @@ public class PromoControllerTest
 	}
 	
 	@Test
-	public void C_listPromoById2() throws Exception
+	@Order(5)
+	public void E_listPromoById2() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.get("/promo/cerca/id/481AD25F-ED20-40FA-B01F-B031B20EB47C")
 				.accept(MediaType.APPLICATION_JSON))
@@ -235,7 +239,8 @@ public class PromoControllerTest
 	}
 	
 	@Test
-	public void E_PromoExceptionTest() throws Exception
+	@Order(6)
+	public void F_PromoExceptionTest() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.get("/promo/cerca/id/959325BE-B4F0-4F95-9DA4-0A3E5F3858S2")
 				.accept(MediaType.APPLICATION_JSON))
@@ -245,7 +250,8 @@ public class PromoControllerTest
 	}
 	
 	@Test
-	public void F_deletePromo() throws Exception
+	@Order(7)
+	public void G_deletePromo() throws Exception
 	{
 		mockMvc.perform(MockMvcRequestBuilders.delete("/promo/elimina/481AD25F-ED20-40FA-B01F-B031B20EB47C")
 				.accept(MediaType.APPLICATION_JSON))
